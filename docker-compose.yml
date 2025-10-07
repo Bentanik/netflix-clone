@@ -1,0 +1,86 @@
+services:
+  netflix-clone-auth:
+    image: ${DOCKER_USERNAME}/netflix-clone-auth:latest
+    container_name: netflix-clone-auth
+    ports:
+      - "5001:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    networks:
+      - netflix-clone-network
+    restart: always
+
+  netflix-clone-media:
+    image: ${DOCKER_USERNAME}/netflix-clone-media:latest
+    container_name: netflix-clone-media
+    ports:
+      - "5002:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    networks:
+      - netflix-clone-network
+    restart: always
+
+  netflix-clone-billing:
+    image: ${DOCKER_USERNAME}/netflix-clone-billing:latest
+    container_name: netflix-clone-billing
+    ports:
+      - "5003:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    networks:
+      - netflix-clone-network
+    restart: always
+
+  netflix-clone-notify:
+    image: ${DOCKER_USERNAME}/netflix-clone-notify:latest
+    container_name: netflix-clone-notify
+    ports:
+      - "5004:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    networks:
+      - netflix-clone-network
+    restart: always
+
+  netflix-clone-recommend:
+    image: ${DOCKER_USERNAME}/netflix-clone-recommend:latest
+    container_name: netflix-clone-recommend
+    ports:
+      - "5005:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    networks:
+      - netflix-clone-network
+    restart: always
+
+  netflix-clone-gateway:
+    image: ${DOCKER_USERNAME}/netflix-clone-gateway:latest
+    container_name: nginx-gateway
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    networks:
+      - netflix-clone-network
+    depends_on:
+      - netflix-clone-auth
+      - netflix-clone-media
+      - netflix-clone-billing
+      - netflix-clone-notify
+      - netflix-clone-recommend
+
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_POLL_INTERVAL=30
+    restart: always
+    networks:
+      - netflix-clone-network
+
+networks:
+  netflix-clone-network:
+    driver: bridge
