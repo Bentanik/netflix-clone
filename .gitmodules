@@ -1,3 +1,21 @@
 [submodule "gateway"]
 	path = gateway
 	url = https://github.com/Bentanik/netflix-clone-gateway.git
+[submodule "auth"]
+	path = auth
+	url = https://github.com/Bentanik/netflix-clone-auth.git
+[submodule "movie"]
+	path = movie
+	url = https://github.com/Bentanik/netflix-clone-movie.git
+[submodule "billing"]
+	path = billing
+	url = https://github.com/Bentanik/netflix-clone-billing.git
+[submodule "notify"]
+	path = notify
+	url = https://github.com/Bentanik/netflix-clone-notify.git
+[submodule "recommend"]
+	path = recommend
+	url = https://github.com/Bentanik/netflix-clone-recommend.git
+[submodule "shared"]
+	path = shared
+	url = https://github.com/Bentanik/netflix-clone-shared.git
